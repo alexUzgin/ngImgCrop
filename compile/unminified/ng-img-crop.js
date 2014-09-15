@@ -5,14 +5,12 @@
  * Copyright (c) 2014 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, July 22nd, 2014, 10:37:39 PM
+ * Generated at Monday, September 15th, 2014, 2:07:49 PM
  */
 (function() {
 'use strict';
 
 var crop = angular.module('ngImgCrop', []);
-
-'use strict';
 
 crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
   var CropAreaCircle = function() {
@@ -160,13 +158,10 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
     this._posDragStartY = 0;
   };
 
-
   return CropAreaCircle;
 }]);
 
 
-
-'use strict';
 
 crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
   var CropAreaSquare = function() {
@@ -378,11 +373,8 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     this._posDragStartY = 0;
   };
 
-
   return CropAreaSquare;
 }]);
-
-'use strict';
 
 crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
   var CropArea = function(ctx, events) {
@@ -469,8 +461,6 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
   return CropArea;
 }]);
 
-'use strict';
-
 crop.factory('cropCanvas', [function() {
   // Shape = Array of [x,y]; [0, 0] - center
   var shapeArrowNW=[[-0.5,-2],[-3,-4.5],[-0.5,-7],[-7,-7],[-7,-0.5],[-4.5,-3],[-2,-0.5]];
@@ -522,7 +512,6 @@ crop.factory('cropCanvas', [function() {
         ctx.closePath();
         ctx.restore();
     };
-
 
     /* Icons */
 
@@ -599,8 +588,6 @@ crop.factory('cropCanvas', [function() {
 
   };
 }]);
-
-'use strict';
 
 crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', function($document, CropAreaCircle, CropAreaSquare) {
   /* STATIC FUNCTIONS */
@@ -747,7 +734,6 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', funct
       }
     };
 
-
     this.getResultImageDataURI=function() {
       var temp_ctx, temp_canvas;
       temp_canvas = angular.element('<canvas></canvas>')[0];
@@ -766,6 +752,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', funct
       events.trigger('image-updated');
       if(!!imageSource) {
         var newImage = new Image();
+        newImage.crossOrigin = 'anonymous';
         newImage.onload = function(){
           events.trigger('load-done');
           image=newImage;
@@ -895,8 +882,6 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', funct
 
 }]);
 
-
-'use strict';
 
 crop.factory('cropPubSub', [function() {
   return function() {
