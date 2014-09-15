@@ -5,7 +5,7 @@
  * Copyright (c) 2014 Alex Kaul
  * License: MIT
  *
- * Generated at Monday, September 15th, 2014, 2:07:49 PM
+ * Generated at Monday, September 15th, 2014, 6:22:08 PM
  */
 (function() {
 'use strict';
@@ -433,6 +433,15 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
     this._dontDragOutside();
   };
 
+  CropArea.prototype.getPosition = function () {
+    return {
+      left: this._x - this._size/2,
+      top: this._y - this._size/2,
+      width: this._size,
+      height: this._size,
+    }
+  };
+
   /* FUNCTIONS */
   CropArea.prototype._dontDragOutside=function() {
     var h=this._ctx.canvas.height,
@@ -460,6 +469,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
 
   return CropArea;
 }]);
+
 
 crop.factory('cropCanvas', [function() {
   // Shape = Array of [x,y]; [0, 0] - center
@@ -746,6 +756,10 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', funct
       return temp_canvas.toDataURL();
     };
 
+    this.getAreaCoords=function() {
+      return theArea.getPosition()
+    }
+
     this.setNewImageSource=function(imageSource) {
       image=null;
       resetCropHost();
@@ -914,6 +928,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       resultImage: '=',
 
       changeOnFly: '=',
+      areaCoords: '=',
       areaType: '@',
       areaMinSize: '=',
       resultImageSize: '=',
@@ -944,8 +959,14 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
           if(angular.isDefined(scope.resultImage)) {
             scope.resultImage=resultImage;
           }
+          updateAreaCoords(scope);
           scope.onChange({$dataURI: scope.resultImage});
         }
+      };
+
+      var updateAreaCoords=function(scope) {
+        var areaCoords=cropHost.getAreaCoords();
+        scope.areaCoords=areaCoords;
       };
 
       // Wrapper to safely exec functions within $apply on a running $digest cycle
@@ -1015,4 +1036,5 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
     }
   };
 }]);
+
 }());
