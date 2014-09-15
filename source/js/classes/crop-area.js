@@ -57,6 +57,15 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
     this._dontDragOutside();
   };
 
+  CropArea.prototype.getPosition = function () {
+    return {
+      left: this._x - this._size/2,
+      top: this._y - this._size/2,
+      width: this._size,
+      height: this._size,
+    }
+  };
+
   /* FUNCTIONS */
   CropArea.prototype._dontDragOutside=function() {
     var h=this._ctx.canvas.height,
